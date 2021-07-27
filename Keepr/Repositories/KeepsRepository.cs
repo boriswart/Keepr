@@ -6,14 +6,14 @@ using Keepr.Interfaces;
 using Keepr.Models;
 using Dapper;
 
-namespace amazen.Repositories
+namespace Keepr.Repositories
 {
 
-  public class ContractsRepository : IRepo<Contract>
+  public class KeepsRepository : IRepo<Keep>
   {
     private readonly IDbConnection _db;
 
-    public ContractsRepository(IDbConnection db)
+    public KeepsRepository(IDbConnection db)
     {
       _db = db;
     }
@@ -59,7 +59,7 @@ namespace amazen.Repositories
                 WHERE k.id = @id;
             ";
 
-      return _db.Query<Keep, Profile, Keep>(sql, (c, p) =>
+      return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
         {
           k.Creator = p;
           return k;

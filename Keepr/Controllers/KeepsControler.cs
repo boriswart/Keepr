@@ -13,7 +13,7 @@ namespace amazen.Controllers
   public class KeepsController : ControllerBase
   {
 
-    private readonly KeepsService _cs;
+    private readonly KeepsService _ks;
 
     public KeepsController(KeepsService ks)
     {
@@ -49,7 +49,7 @@ namespace amazen.Controllers
     }
 
     [HttpGet("{id}/bids")]
-    public ActionResult<List<ContractBid>> GetContractBids(int id)
+    public ActionResult<List<KeepVault>> GetKeepVaults(int id)
     {
       try
       {
