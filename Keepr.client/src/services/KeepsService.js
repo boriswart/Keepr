@@ -1,4 +1,4 @@
-import { AppState } from './AppState'
+import { AppState } from '../AppState'
 // import Pop from '../utils/Notifier'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'

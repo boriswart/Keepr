@@ -1,15 +1,29 @@
 <template>
-  <div class="container-fluid">
-    <div class="row"></div>
-    <div class="col-lg-4 m-auto">
-      <h1>Hello World!</h1>
+  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4 col-md-6" v-for="k in keeps" :key="k.id">
+          <KeepCard :keep="k" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
 <script>
+import { computed, onMounted, reactive } from 'vue'
+import { AppState } from '../AppState'
+import { keepsService } from '../services/KeepsService'
 export default {
-  name: 'Home'
+  setup() {
+    onMounted(() => {
+      keepsService.getKeeps()
+    })
+    return reactive({
+      account: computed(() => AppState.account),
+      user: computed(() => AppState.user),
+      contracts: computed(() => AppState.keeps)
+    })
+  }
 }
 </script>
 
