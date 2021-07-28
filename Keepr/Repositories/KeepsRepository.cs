@@ -50,21 +50,25 @@ namespace Keepr.Repositories
 
     public Keep GetById(int id)
     {
-      string sql = @"
-                SELECT 
-                    k.*,
-                    a.*
-                FROM keeps k
-                JOIN Accounts a ON k.creatorId = a.id
-                WHERE k.id = @id;
-            ";
+      List<Keep> getData = GetAll();
 
-      return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
-        {
-          k.Creator = p;
-          return k;
-        }, new { id }).FirstOrDefault();
+      return getData.FirstOrDefault();
     }
+
+    // string sql = @"
+    //           SELECT 
+    //               k.*,
+    //               a.*
+    //           FROM keeps k
+    //           JOIN Accounts a ON k.creatorId = a.id
+    //           WHERE k.id = @id;
+    //       ";
+
+    // return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+    //   {
+    //     k.Creator = p;
+    //     return k;
+    //   }, new { id }, splitOn: "Id").FirstOrDefault();
 
     public Keep Update(Keep data)
     {
@@ -87,7 +91,5 @@ namespace Keepr.Repositories
       }
       return data;
     }
-
   }
-
 }

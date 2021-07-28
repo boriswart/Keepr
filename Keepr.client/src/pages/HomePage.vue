@@ -21,7 +21,7 @@ export default {
     return reactive({
       account: computed(() => AppState.account),
       user: computed(() => AppState.user),
-      contracts: computed(() => AppState.keeps)
+      keeps: computed(() => AppState.keeps)
     })
   }
 }

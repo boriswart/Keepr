@@ -2,9 +2,10 @@
   <div class="card m-4 shadow">
     <img :src="keep.img" v-if="keep.img" alt="" class="card-img-top">
     <div class="card-body">
-      <router-link :to="{name: 'keep', params: {id: keep.id}}">
+      <h3>
         {{ keep.name }}
-      </router-link>
+      </h3>
+      <p>{{ keep.description }}</p>
     </div>
     <div class="card-footer text-right">
       <b>{{ keep.creator.name }}</b>
@@ -14,15 +15,22 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed, watchEffect } from '@vue/runtime-core'
+import { useRoute } from 'vue-router'
+import { keepsService } from '../services/KeepsService'
 import { AppState } from '../AppState'
 export default {
-  props: {
-    keep: { type: Object, required: true }
-  },
   setup() {
+    const route = useRoute()
+    watchEffect(() => {
+      const id = route.params.id
+      if (!id) { return }
+      keepsService.getKeepById(id)
+      // contractsService.getContractBids(id)
+    })
     return {
-      account: computed(() => AppState.account)
+      keep: computed(() => AppState.keep)
+      // : computed(() => AppState.contractBids)
     }
   }
 }

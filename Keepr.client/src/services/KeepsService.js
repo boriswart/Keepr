@@ -5,21 +5,24 @@ import { api } from './AxiosService'
 
 class KeepsService {
   async getKeeps() {
+    AppState.keeps = []
+    AppState.keep = {}
     const res = await api.get('api/keeps')
-    logger.log(res.data)
+    logger.log('gKeeps', res.data)
     AppState.keeps = res.data
   }
 
   async getKeepById(id) {
-    AppState.contract = {}
+    AppState.keep = {}
     const res = await api.get(`api/keeps/${id}`)
+    logger.log('gKBId', res.data)
     AppState.keep = res.data
   }
 
   async getKeepVaults(keepId) {
     AppState.keepVaults = []
     const res = await api.get(`api/keeps/${keepId}/vaults`)
-    AppState.contractBids = res.data
+    AppState.keepVaults = res.data
   }
 
   // async leaveGroup(g) {

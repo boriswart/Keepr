@@ -6,7 +6,7 @@ using Keepr.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace amazen.Controllers
+namespace Keepr.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]
@@ -48,7 +48,7 @@ namespace amazen.Controllers
       }
     }
 
-    [HttpGet("{id}/bids")]
+    [HttpGet("{id}/vaults")]
     public ActionResult<List<KeepVault>> GetKeepVaults(int id)
     {
       try
@@ -61,13 +61,6 @@ namespace amazen.Controllers
         return BadRequest(e.Message);
       }
     }
-
-
-
-
-
-
-
 
 
   }

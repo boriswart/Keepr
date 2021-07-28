@@ -12,36 +12,36 @@ namespace Keepr.Services
     private readonly KeepsVaultRepository _kvRepo;
 
 
-    public KeepsService( KeepsRepository KeepsRepo, KeepsVaultRepository KeepsVaultRepo)
+    public KeepsService(KeepsRepository KeepsRepo, KeepsVaultRepository KeepsVaultRepo)
     {
       _kRepo = KeepsRepo;
       _kvRepo = KeepsVaultRepo;
     }
 
 
-  internal Keep CreateKeep(Keep KeepData)
-  {
-    Keep Keep = _kRepo.Create(KeepData);
-    _kRepo.Create(KeepData);
-    return Keep;
-  }
+    internal Keep CreateKeep(Keep KeepData)
+    {
+      Keep Keep = _kRepo.Create(KeepData);
+      _kRepo.Create(KeepData);
+      return Keep;
+    }
 
 
-  internal List<Keep> GetKeeps()
-  {
-    return _kRepo.GetAll();
-  }
+    internal List<Keep> GetKeeps()
+    {
+      return _kRepo.GetAll();
+    }
 
-  internal Keep GetKeepById(int id)
-  {
-    return _kRepo.GetById(id);
-  }
+    internal Keep GetKeepById(int id)
+    {
+      return _kRepo.GetById(id);
+    }
 
-  internal List<KeepVault> GetKeepsVault(int id)
-  {
-    List<KeepVault> bids = _kvRepo.GetBidsByKeepId(id);
-    return bids;
-  }
+    internal List<KeepVault> GetKeepsVault(int id)
+    {
+      List<KeepVault> bids = _kvRepo.GetBidsByKeepId(id);
+      return bids;
+    }
 
     internal List<KeepVault> GetKeepVault(int id)
     {
