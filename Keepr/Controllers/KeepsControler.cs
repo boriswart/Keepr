@@ -48,6 +48,36 @@ namespace Keepr.Controllers
       }
     }
 
+    [HttpPost]
+    public ActionResult<Keep> create([FromBody] Keep kData)
+    {
+      try
+      {
+        return Ok(_ks.CreateKeep(kData));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpPut("{id}")]
+    public ActionResult<Keep> update(int id, [FromBody] Keep kData)
+    {
+      try
+      {
+        return Ok(_ks.UpdateKeep(kData));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+
+
+
+
     [HttpGet("{id}/vaults")]
     public ActionResult<List<KeepVault>> GetKeepVaults(int id)
     {

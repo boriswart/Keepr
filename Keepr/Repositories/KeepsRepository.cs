@@ -8,7 +8,6 @@ using Dapper;
 
 namespace Keepr.Repositories
 {
-
   public class KeepsRepository : IRepo<Keep>
   {
     private readonly IDbConnection _db;
@@ -33,12 +32,14 @@ namespace Keepr.Repositories
     public List<Keep> GetAll()
     {
       string sql = @"
-                SELECT 
-                    k.*,
-                    a.*
-                FROM keeps k
-                JOIN Accounts a ON k.creatorId = a.id;
-            ";
+              SELECT
+     k.*,
+     a.*
+     FROM
+     keeps k
+     JOIN Accounts a ON k.creatorId = a.id
+     ";
+
       // The join requires a Query wheras 
       // [{c:Contract, p: profile}].map(({c,p}) => c.creator = p) // mapping using virtual creator of type Profile
       return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
@@ -48,27 +49,29 @@ namespace Keepr.Repositories
       }, splitOn: "id").ToList();    // needed above complex return to satisfy Dapper confusion
     }
 
-    public Keep GetById(int id)
+    internal Keep getOne(int id)
     {
-      List<Keep> getData = GetAll();
-
-      return getData.FirstOrDefault();
+      string sql = "SELECT * FROM keeps k WHERE k.id = @id";
+      return _db.QueryFirstOrDefault<Keep>(sql, new { id });
     }
 
-    // string sql = @"
-    //           SELECT 
-    //               k.*,
-    //               a.*
-    //           FROM keeps k
-    //           JOIN Accounts a ON k.creatorId = a.id
-    //           WHERE k.id = @id;
-    //       ";
-
-    // return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
-    //   {
-    //     k.Creator = p;
-    //     return k;
-    //   }, new { id }, splitOn: "Id").FirstOrDefault();
+    public Keep GetById(int id)
+    {
+      string sql = @"
+              SELECT 
+                  k.*,
+                  a.*
+              FROM keeps k
+              JOIN Accounts a ON k.creatorId = a.id
+              WHERE k.id = @id;
+          ";
+      //List<Keep> getData = GetAll();
+      return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+        {
+          k.Creator = p;
+          return k;
+        }, new { id }, splitOn: "Id").FirstOrDefault();
+    }
 
     public Keep Update(Keep data)
     {

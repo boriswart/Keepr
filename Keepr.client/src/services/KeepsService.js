@@ -17,6 +17,7 @@ class KeepsService {
     const res = await api.get(`api/keeps/${id}`)
     logger.log('gKBId', res.data)
     AppState.keep = res.data
+    logger.log('AppS-kp', AppState.keep)
   }
 
   async getKeepVaults(keepId) {

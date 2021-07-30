@@ -51,7 +51,23 @@ FROM
   JOIN Accounts a ON k.creatorId = a.id
 WHERE
   k.id = 2;
+
+
 select
   *
 from
-  keeps
+  keeps;
+
+
+  
+SELECT
+  a.*,
+  a.name,
+  k.name,
+  k.img,
+  k.*
+FROM
+  keeps AS k
+  INNER JOIN Accounts AS a ON k.creatorId = a.id
+WHERE
+  k.id = 2

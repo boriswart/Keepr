@@ -8,8 +8,8 @@
       <p>{{ keep.description }}</p>
     </div>
     <div class="card-footer text-right">
-      <b>{{ keep.creator.name }}</b>
-      <img :src="keep.creator.picture" alt="keep creator image" class="rounded-circle elevation-1 mx-2" height="40">
+      <b>{{ keep.creator }}</b>
+      <img :src="'keep.creator.picture'" alt="keep creator image" class="rounded-circle elevation-1 mx-2" height="40">
     </div>
   </div>
 </template>
@@ -25,6 +25,7 @@ export default {
     watchEffect(() => {
       const id = route.params.id
       if (!id) { return }
+      AppState.keep = {}
       keepsService.getKeepById(id)
       // contractsService.getContractBids(id)
     })
