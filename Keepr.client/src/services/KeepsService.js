@@ -26,6 +26,18 @@ class KeepsService {
     AppState.keepVaults = res.data
   }
 
+  async deleteKeep(k) {
+    await api.delete(`api/keeps/${k.id}`)
+    // Pop.toast(`Deleted group ${k.name}`)
+  }
+
+  async updateKeep(keepData) {
+    const res = await api.put(`api/keeps/${keepData.id}`, keepData)
+    AppState.activeKeep = res.data
+    logger.log('put', res.data)
+    // Pop.toast(`Updated group ${k.name}`)
+  }
+
   // async leaveGroup(g) {
   //   await api.delete(`api/groupmembers/${g.id}`)
   //   Pop.toast(`Left group ${g.name}`)
@@ -36,16 +48,6 @@ class KeepsService {
   //   const res = await api.post('api/groups', group)
   //   Pop.toast(`Created group ${group.name}`)
   //   AppState.groups.push(res.data)
-  // }
-
-  // async updateGroup(g) {
-  //   await api.put(`api/groups/${g.id}`, g)
-  //   Pop.toast(`Updated group ${g.name}`)
-  // }
-
-  // async deleteGroup(g) {
-  //   await api.delete(`api/groups/${g.id}`)
-  //   Pop.toast(`Deleted group ${g.name}`)
   // }
 
   // async joinGroup(g) {

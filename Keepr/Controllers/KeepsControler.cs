@@ -62,7 +62,7 @@ namespace Keepr.Controllers
     }
 
     [HttpPut("{id}")]
-    public ActionResult<Keep> update(int id, [FromBody] Keep kData)
+    public ActionResult<Keep> update( [FromBody] Keep kData)
     {
       try
       {

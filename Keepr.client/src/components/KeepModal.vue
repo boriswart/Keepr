@@ -5,9 +5,13 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Keep
-              </h5>
+              <div class="col-8 d-flex justify-content-between m-auto  my-5">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Keep
+                </h5>
+                <i class="remove fa fa-trash text-danger mx-1" aria-hidden="true" @click="removeKeep(keep)" title="Remove Keep"> </i>
+                <i class="edit fa fa-pencil text-primary mx-1" aria-hidden="true" @click="setActiveKeepEdit(keep.id)" title="Edit Keep"> </i>
+              </div>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -15,33 +19,26 @@
             <div class="modal-body">
               <!-- <div v-for="(k,i) in keeps" :key="i"> -->
               <div class="row">
-                <div class="col-10 m-auto justify-content-between m-3">
+                <div class="col-12 m-auto justify-content-between my-3">
                   <h5> {{ keep.name }}</h5>
+                  {{ activeKeepEdit }}
                   <div class="row">
-                    <div class="col-10 m-auto justify-content-between m-3">
+                    <div class="col-12 m-auto justify-content-between my-3">
                       <img :src="keep.img" v-if="keep.img" alt="" class="card-img-top my-3">
                       <div class="row">
-                        <div class="col-10 m-auto  m-5">
+                        <div class="col-12 m-auto  m-5">
                           <h6><p>{{ keep.description }}</p></h6>
-                          <div>
-                            <i class="remove fa fa-trash text-danger mx-1" aria-hidden="true" @click="removeKeep(keep)" title="Remove Keep"> </i>
-                            <i class="edit fa fa-pencil text-primary mx-1" aria-hidden="true" @click="state.activeContactEdit = keep.id" title="Edit Keep"> </i>
-                          </div>
                         </div>
                       </div>
                       <div class="row">
-                        <!-- <div class="col-md-12 p-3">
-                          <input class="mx-2 rounded text-center p-2" v-model="state.newKeep.name" />
-                          <input class="mx-2 rounded text-center p-2" v-model="state.newKeep.creator" />
-                        </div> -->
                       </div>
-                      <form v-if="state.activeKeep == keep.id" class="card m-2 p-2 bg-danger shadow">
+                      <form v-if="state.activeKeepEdit == keep.id" class="card m-2 p-2 bg-danger shadow">
                         <div class="row">
                           <div class="col-12 d-flex justify-content-center p-3">
-                            <button type="submit" class="submit-edit mx-3 btn btn-primary" @click="editFormKeep(keep)">
+                            <button type="button" class="submit-edit mx-3 btn btn-primary" @click="activeKeepEdit = keep.id">
                               Submit
                             </button>
-                            <button type="button" class="cancel-edit mx-3 btn btn-primary" @click="state.activeKeepEdit = ''">
+                            <button type="button" class="cancel-edit mx-3 btn btn-primary" @click="activeKeepEdit = ''">
                               Cancel
                             </button>
                           </div>
@@ -49,17 +46,17 @@
                       </form>
                       <!-- </div> -->
                       <div class="row">
-                        <div v-if="state.newKeepEdit == keep.id" class="col-11">
-                          <form @submit.prevent="editFormKeep()">
-                            <input type="text" class="form-control m-3" required="true" placeholder="Name" v-model="state.newKeep.name">
-                            <input type="text" class="form-control m-3" required="true" placeholder="description" v-model="state.newKeep.Description">
-                            <input type="text" class="form-control m-3" required="true" placeholder="Img-Url" v-model="state.newKeep.Url">
+                        <div v-if="activeKeepEdit == keep.id" class="col-11">
+                          <form @submit.prevent="editFormKeep(keep.id)">
+                            <input type="text" class="form-control m-3" required="true" placeholder="Name" v-model="state.newKeep.Name">
+                            <input type="text" class="form-control m-3" required="true" placeholder="Description" v-model="state.newKeep.Description">
+                            <input type="text" class="form-control m-3" required="true" placeholder="Img-Url" v-model="state.newKeep.Img">
                             <button type="submit"
                                     class="btn"
-                                    :disabled="!state.newKeep.name"
+                                    :disabled="!state.newKeep.Name"
                                     :class="{
-                                      'btn-primary': state.newKeep.name,
-                                      'display-none': !state.newKeep.name
+                                      'btn-primary': state.newKeep.Name,
+                                      'display-none': !state.newKeep.Name
                                     }"
                             >
                               Edit Keep
@@ -94,7 +91,7 @@ export default {
   // },
   setup() {
     const state = reactive({
-      newKeep: { name: '', description: '', Url: '' },
+      newKeep: { id: 0, Name: '', Description: '', Img: '' },
       activeKeepEdit: ''
     })
     return {
@@ -103,26 +100,34 @@ export default {
       keep: computed(() => AppState.activeKeep),
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
+      activeKeepEdit: computed(() => AppState.activeKeepEdit),
+      setActiveKeepEdit(id) {
+        AppState.activeKeepEdit = id
+      },
       addKeep() {
-        const newKeep = { name: state.newKeep.name, description: state.newKeep.description, Url: state.newKeep.Url }
+        const newKeep = { name: state.newKeep.Name, description: state.newKeep.Description, Url: state.newKeep.Img }
         accountService.addKeep(newKeep)
         state.newKeep = {}
       },
       removeKeep(keepData) {
         if (confirm('do you really want to delete')) {
-          accountService.deleteKeep(keepData)
+          keepsService.deleteKeep(keepData)
           state.activeKeepEdit = ''
         }
-      },
-      editFormKeep(id) {
-        const keep = AppState.keeps.filter(k => k.id === id)
-        keep.name = state.newKeep.name
-        keep.description = state.newKeep.description
-        keep.Url = state.newKeep.Url
       },
       editKeep(keepData) {
         // AppState.account.contacts.push(contact)
         keepsService.updateKeep(keepData)
+      },
+      editFormKeep(id) {
+        const kp = state.newKeep
+        kp.Name = state.newKeep.Name
+        kp.Description = state.newKeep.Description
+        kp.Img = state.newKeep.Img
+        kp.id = id
+        keepsService.updateKeep(kp)
+        AppState.activeKeep = kp
+        state.newKeep = {}
         state.activeKeepEdit = ''
       }
     }

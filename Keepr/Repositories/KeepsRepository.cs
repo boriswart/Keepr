@@ -82,16 +82,9 @@ namespace Keepr.Repositories
                     img = @Img,
                     description = @Description
                 WHERE id = @Id;
+                SELECT LAST_INSERT_ID();
             ";
-      var rowsAffected = _db.Execute(sql, data);
-      if (rowsAffected > 1)
-      {
-        throw new Exception("Ahhhhh that was probably really bad");
-      }
-      if (rowsAffected < 1)
-      {
-        throw new Exception("woops update didn't work no idea why probably a bad id");
-      }
+      int rowsAffected = _db.ExecuteScalar<int>(sql, data);
       return data;
     }
   }

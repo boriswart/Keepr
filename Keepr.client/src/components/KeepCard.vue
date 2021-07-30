@@ -44,7 +44,7 @@ export default {
       account: computed(() => AppState.account),
       setActiveKeep(keep) {
         AppState.activeKeep = keep
-        AppState.activeKeepEdit = keep.id
+        AppState.activeKeepEdit = ''
       }
     })
     return {
