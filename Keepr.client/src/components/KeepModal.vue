@@ -29,13 +29,13 @@
                           </div>
                         </div>
                       </div>
-                      <form v-if="state.activeKeepEdit == keep.id" class="card m-2 p-2 bg-danger shadow">
-                        <div class="row">
-                          <div class="col-md-12 p-3">
-                            <input class="mx-2 rounded text-center p-2" v-model="newKeep.name" />
-                            <input class="mx-2 rounded text-center p-2" v-model="newKeep.creator" />
-                          </div>
-                        </div>
+                      <div class="row">
+                        <!-- <div class="col-md-12 p-3">
+                          <input class="mx-2 rounded text-center p-2" v-model="state.newKeep.name" />
+                          <input class="mx-2 rounded text-center p-2" v-model="state.newKeep.creator" />
+                        </div> -->
+                      </div>
+                      <form v-if="state.activeKeep == keep.id" class="card m-2 p-2 bg-danger shadow">
                         <div class="row">
                           <div class="col-12 d-flex justify-content-center p-3">
                             <button type="submit" class="submit-edit mx-3 btn btn-primary" @click="editFormKeep(keep)">
@@ -49,10 +49,11 @@
                       </form>
                       <!-- </div> -->
                       <div class="row">
-                        <div class="col-11">
-                          <form @submit.prevent="addKeep()">
+                        <div v-if="state.newKeepEdit == keep.id" class="col-11">
+                          <form @submit.prevent="editFormKeep()">
                             <input type="text" class="form-control m-3" required="true" placeholder="Name" v-model="state.newKeep.name">
-                            <input type="tel" class="form-control m-3" required="true" placeholder="description" v-model="state.newKeepDescription">
+                            <input type="text" class="form-control m-3" required="true" placeholder="description" v-model="state.newKeep.Description">
+                            <input type="text" class="form-control m-3" required="true" placeholder="Img-Url" v-model="state.newKeep.Url">
                             <button type="submit"
                                     class="btn"
                                     :disabled="!state.newKeep.name"
@@ -61,9 +62,9 @@
                                       'display-none': !state.newKeep.name
                                     }"
                             >
-                              Add Contact
+                              Edit Keep
                             </button>
-                            <div class="card-footer text-right">
+                            <div v-if="keep.creator" class="card-footer text-right">
                               <b>{{ keep.creator.name }}</b>
                               <img :src="keep.creator.picture" alt="keep creator image" class="rounded-circle elevation-1 mx-2" height="40">
                             </div>
@@ -93,7 +94,7 @@ export default {
   // },
   setup() {
     const state = reactive({
-      newKeep: { name: '', description: '', id: '' },
+      newKeep: { name: '', description: '', Url: '' },
       activeKeepEdit: ''
     })
     return {
@@ -103,7 +104,7 @@ export default {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       addKeep() {
-        const newKeep = { name: state.newKeep.name, desc: state.newKeep.description }
+        const newKeep = { name: state.newKeep.name, description: state.newKeep.description, Url: state.newKeep.Url }
         accountService.addKeep(newKeep)
         state.newKeep = {}
       },
@@ -113,13 +114,13 @@ export default {
           state.activeKeepEdit = ''
         }
       },
-      editKeep(id) {
+      editFormKeep(id) {
         const keep = AppState.keeps.filter(k => k.id === id)
-        state.newKeep.name = keep.name
-        state.newKeep.description = keep.description
-        state.newKeep.id = keep.id
+        keep.name = state.newKeep.name
+        keep.description = state.newKeep.description
+        keep.Url = state.newKeep.Url
       },
-      editFormContact(keepData) {
+      editKeep(keepData) {
         // AppState.account.contacts.push(contact)
         keepsService.updateKeep(keepData)
         state.activeKeepEdit = ''
