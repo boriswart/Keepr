@@ -1,30 +1,26 @@
 <template>
   <KeepModal />
   <div class="card m-4 shadow">
+    <button type="button"
+            class="add btn btn-slide"
+            data-toggle="modal"
+            data-target="#KeepModal"
+            title="showKeepModal"
+            @click="state.setActiveKeep(keep)"
+    >
+      View
+    </button>
     <img :src="keep.img" v-if="keep.img" alt="" class="card-img-top">
-    <div class="card-body">
-      <!-- <router-link :to="{name: 'Keep', params: {id: keep.id}}"> -->
-      {{ keep.name }}
-      <!-- </router-link> -->
+    <div class="card-body d-flex justify-content-center">
+      <div class="row"></div>
+      <h5>{{ keep.name }}</h5>
     </div>
-    <div class="card-footer text-right">
+    <div class="keepModal col rounded shadow">
+      <KeepModal />
+    </div>
+    <div class="card-footer d-flex justify-content-between text-right">
       <b>{{ keep.creator.name }}</b>
       <img :src="keep.creator.picture" alt="keep creator image" class="rounded-circle elevation-1 mx-2" height="40">
-    </div>
-  </div>
-
-  <div class="row d-flex justify-content-center">
-    <div class="keepModal col-9 p-3 rounded shadow my-5">
-      <KeepModal />
-      <button type="button"
-              class="add btn btn-slide"
-              data-toggle="modal"
-              data-target="#KeepModal"
-              title="showKeepModal"
-              @click="state.setActiveKeep(keep)"
-      >
-        Active Keep
-      </button>
     </div>
   </div>
 </template>

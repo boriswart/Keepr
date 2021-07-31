@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { computed, reactive } from '@vue/runtime-core'
+import { computed, reactive, watchEffect } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { accountService } from '../services/AccountService'
 import { keepsService } from '../services/KeepsService'
@@ -92,6 +92,7 @@ export default {
   setup() {
     const state = reactive({
       newKeep: { id: 0, Name: '', Description: '', Img: '' },
+      keep: watchEffect(() => AppState.activeKeep),
       activeKeepEdit: ''
     })
     return {
