@@ -8,20 +8,21 @@ using Dapper;
 
 namespace Keepr.Repositories
 {
-  public class KeepsRepository : IRepo<Keep>
+
+  public class VaultsRepository : IRepo<Vault>
   {
     private readonly IDbConnection _db;
 
-    public KeepsRepository(IDbConnection db)
+    public VaultsRepository(IDbConnection db)
     {
       _db = db;
     }
 
-    public Keep Create(Keep data)
+    public Vault Create(Vault data)
     {
       var sql = @"
-            INSERT INTO keeps(name, description, img, creatorId)
-            VALUES(@Name, @Description, @Img, @CreatorId);
+            INSERT INTO vaults(name, description, isPrivate, creatorId)
+            VALUES(@Name, @Description, @isPrivate, @CreatorId);
             SELECT LAST_INSERT_ID();
             ";
       var id = _db.ExecuteScalar<int>(sql, data);
@@ -29,33 +30,32 @@ namespace Keepr.Repositories
       return data;
     }
 
-    public List<Keep> GetAll()
+    public List<Vault> GetAll()
     {
       string sql = @"
               SELECT
-     k.*,
+     v.*,
      a.*
      FROM
-     keeps k
+     vaults v
      JOIN Accounts a ON k.creatorId = a.id
      ";
-
       // The join requires a Query wheras 
       // [{c:Contract, p: profile}].map(({c,p}) => c.creator = p) // mapping using virtual creator of type Profile
-      return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+      return _db.Query<Vault, Profile, Vault>(sql, (v, p) =>
       {
-        k.Creator = p;
-        return k;
+        v.Creator = p;
+        return v;
       }, splitOn: "id").ToList();    // needed above complex return to satisfy Dapper confusion
     }
 
-    internal Keep getOne(int id)
+    internal Vault getOne(int id)
     {
-      string sql = "SELECT * FROM keeps k WHERE k.id = @id";
-      return _db.QueryFirstOrDefault<Keep>(sql, new { id });
+      string sql = "SELECT * FROM vaults v WHERE v.id = @id";
+      return _db.QueryFirstOrDefault<Vault>(sql, new { id });
     }
 
-    public Keep GetById(int id)
+    public Vault GetById(int id)
     {
       string sql = @"
               SELECT 
@@ -66,26 +66,26 @@ namespace Keepr.Repositories
               WHERE k.id = @id;
           ";
       //List<Keep> getData = GetAll();
-      return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+      return _db.Query<Vault, Profile, Vault>(sql, (v, p) =>
         {
-          k.Creator = p;
-          return k;
+          v.Creator = p;
+          return v;
         }, new { id }, splitOn: "Id").FirstOrDefault();
     }
-
-    public Keep Update(Keep data)
+    public Vault Update(Vault data)
     {
       var sql = @"
-                UPDATE keeps
+                UPDATE vaults
                     SET
                     name = @Name,
-                    img = @Img,
                     description = @Description
+                    isPrivate = @isPrivate,
                 WHERE id = @Id;
                 SELECT LAST_INSERT_ID();
             ";
       int rowsAffected = _db.ExecuteScalar<int>(sql, data);
       return data;
     }
+
   }
 }

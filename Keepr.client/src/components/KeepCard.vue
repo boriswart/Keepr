@@ -11,16 +11,15 @@
       View
     </button>
     <img :src="keep.img" v-if="keep.img" alt="" class="card-img-top">
-    <div class="card-body d-flex justify-content-center">
-      <div class="row"></div>
+    <div class="row"></div>
+    <div class="card-body d-flex justify-content-between">
       <h5>{{ keep.name }}</h5>
+      <img :src="keep.creator.picture" alt="keep creator image" class="rounded-circle elevation-1 mx-2" height="40">
+    </div>
+    <div class="card-footer d-flex justify-content-between text-right">
     </div>
     <div class="keepModal col rounded shadow">
       <KeepModal />
-    </div>
-    <div class="card-footer d-flex justify-content-between text-right">
-      <b>{{ keep.creator.name }}</b>
-      <img :src="keep.creator.picture" alt="keep creator image" class="rounded-circle elevation-1 mx-2" height="40">
     </div>
   </div>
 </template>

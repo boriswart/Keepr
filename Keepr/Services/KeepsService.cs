@@ -21,15 +21,15 @@ namespace Keepr.Services
 
     internal Keep CreateKeep(Keep KeepData)
     {
-      Keep Keep = _kRepo.Create(KeepData);
-      return Keep;
+      Keep keep = _kRepo.Create(KeepData);
+      return keep;
     }
 
     internal Keep UpdateKeep(Keep KeepData)
     {
 
-      Keep Keep = _kRepo.Update(KeepData);
-      return Keep;
+      Keep keep = _kRepo.Update(KeepData);
+      return keep;
     }
 
     internal List<Keep> GetKeeps()

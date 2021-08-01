@@ -70,4 +70,32 @@ FROM
   keeps AS k
   INNER JOIN Accounts AS a ON k.creatorId = a.id
 WHERE
-  k.id = 2
+  k.id = 2;
+
+
+CREATE TABLE IF NOT EXISTS vaults(
+  id INT NOT NULL primary key AUTO_INCREMENT COMMENT 'primary key',
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  name varchar(255) COMMENT 'Vault Name',
+  description varchar(255) COMMENT 'Vault description',
+  isPrivate  TINYINT COMMENT 'true or false viewable by owner',
+  creatorId varchar(255) COMMENT 'FK: creator user account',
+  FOREIGN KEY (creatorId) REFERENCES Accounts(id) ON DELETE CASCADE
+) default charset utf8 COMMENT '';
+
+drop table vaults;
+
+
+INSERT INTO
+  vaults(name, description, isPrivate, creatorId)
+VALUES
+  (
+    "Bears",
+    "A vault to store bears",
+    1,
+    "60c8e79e8a6d40e05a9cfb58"
+  );
+
+  select * from vaults;
+  

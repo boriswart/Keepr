@@ -7,6 +7,13 @@
         </div>
       </div>
     </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4 col-md-6" v-for="v in vaults" :key="v.id">
+          <VaultCard :vault="v" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
