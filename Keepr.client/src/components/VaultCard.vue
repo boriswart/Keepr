@@ -1,6 +1,6 @@
 <template>
   <VaultModal />
-  <div class="card m-4 shadow">
+  <div class="card vault m-4 shadow size=100">
     <button type="button"
             class="add btn btn-slide"
             data-toggle="modal"
@@ -10,16 +10,8 @@
     >
       View
     </button>
-    <!-- <img :src="keep.img" v-if="keep.img" alt="" class="card-img-top"> -->
-    <div class="row"></div>
-    <div class="card-body d-flex justify-content-between">
-      <h5>{{ vault.name }}</h5>
-      <img :src="vault.creator.picture" alt="vault creator image" class="rounded-circle elevation-1 mx-2" height="40">
-    </div>
-    <div class="card-footer d-flex justify-content-between text-right">
-    </div>
-    <div class="VaultModal col rounded shadow">
-      <VaultModal />
+    <div class="vault w-200">
+      <img src="../assets/img/vault.jpg" width="200" height="200" alt="" class="vault size=65">
     </div>
   </div>
 </template>
@@ -49,4 +41,11 @@ export default {
 </script>
 
 <style>
+.image{
+  max-height: 200px;
+}
+.vault{
+  /* background-image:url("https://image.shutterstock.com/z/stock-photo-front-view-of-light-gold-bank-vault-door-open-the-door-to-the-bank-vault-isolated-on-white-1584269443.jpg");
+  height: 100; */
+}
 </style>

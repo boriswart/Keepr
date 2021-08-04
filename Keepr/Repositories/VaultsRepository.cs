@@ -38,7 +38,7 @@ namespace Keepr.Repositories
      a.*
      FROM
      vaults v
-     JOIN Accounts a ON k.creatorId = a.id
+     JOIN Accounts a ON v.creatorId = a.id
      ";
       // The join requires a Query wheras 
       // [{c:Contract, p: profile}].map(({c,p}) => c.creator = p) // mapping using virtual creator of type Profile

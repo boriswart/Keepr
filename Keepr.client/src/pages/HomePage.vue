@@ -20,16 +20,20 @@
 import { computed, onMounted, reactive, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
+import { vaultsService } from '../services/VaultsService'
 export default {
   setup() {
     onMounted(() => {
       keepsService.getKeeps()
+      vaultsService.getVaults()
       watchEffect(() => AppState.keeps)
+      watchEffect(() => AppState.vaults)
     })
     return reactive({
       account: computed(() => AppState.account),
       user: computed(() => AppState.user),
-      keeps: computed(() => AppState.keeps)
+      keeps: computed(() => AppState.keeps),
+      vaults: computed(() => AppState.vaults)
     })
   }
 }
