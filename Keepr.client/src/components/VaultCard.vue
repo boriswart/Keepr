@@ -1,6 +1,6 @@
 <template>
   <div class="col2">
-    <div id="vault.id" class="card vault m-4 shadow size=100" ondrop="dragDrop(event)" ondragover="allowDrop(event)">
+    <div :id="vault.id" class="card vault m-4 shadow size=100" ondrop="dragDrop(event)" ondragover="allowDrop(event)">
       <button type="button"
               class="add btn btn-slide"
               data-toggle="modal"

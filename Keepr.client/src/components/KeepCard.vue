@@ -1,6 +1,6 @@
 <template>
   <KeepModal />
-  <div id="keep.id" draggable="true" ondragstart="dragstart (event)" class="card m-4 shadow">
+  <div :id="keep.id" draggable="true" ondragstart="dragstart (event)" class="card m-4 shadow">
     <button type="button"
             class="add btn btn-slide"
             data-toggle="modal"
