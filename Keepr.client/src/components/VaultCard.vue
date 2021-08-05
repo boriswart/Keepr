@@ -1,19 +1,21 @@
 <template>
-  <VaultModal />
-  <div class="card vault m-4 shadow size=100">
-    <button type="button"
-            class="add btn btn-slide"
-            data-toggle="modal"
-            data-target="#VaultModal"
-            title="showVaultModal"
-            @click="state.setActiveVault(vault)"
-    >
-      View
-    </button>
-    <div class="vault w-200">
-      <img src="../assets/img/vault.jpg" width="200" height="200" alt="" class="vault size=65">
+  <div class="col2">
+    <div id="vault.id" class="card vault m-4 shadow size=100" ondrop="dragDrop(event)" ondragover="allowDrop(event)">
+      <button type="button"
+              class="add btn btn-slide"
+              data-toggle="modal"
+              data-target="#VaultModal"
+              title="showVaultModal"
+              @click="state.setActiveVault(vault)"
+      >
+        View
+      </button>
+      <div class="vault w-200">
+        <img src="../assets/img/vault.jpg" width="200" height="200" alt="" class="vault size=65">
+      </div>
     </div>
   </div>
+  <VaultModal />
 </template>
 
 <script>
@@ -44,8 +46,8 @@ export default {
 .image{
   max-height: 200px;
 }
-.vault{
-  /* background-image:url("https://image.shutterstock.com/z/stock-photo-front-view-of-light-gold-bank-vault-door-open-the-door-to-the-bank-vault-isolated-on-white-1584269443.jpg");
-  height: 100; */
+card.vault{
+  background-image:url("https://image.shutterstock.com/z/stock-photo-front-view-of-light-gold-bank-vault-door-open-the-door-to-the-bank-vault-isolated-on-white-1584269443.jpg");
+  height: 100;
 }
 </style>

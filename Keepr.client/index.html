@@ -21,4 +21,27 @@
   <script type="module" src="./src/main.js"></script>
 </body>
 <script src="https://kit.fontawesome.com/dc06b7615f.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
+</script>
+<script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  function dragStart(ev) {
+    ev.dataTransfer.setData("int", ev.target.id);
+  }
+  function dragDrop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("int");
+    ev.target.appendChild(document.getElementById(data));
+  }
+</script>
+
+
+
 </html>

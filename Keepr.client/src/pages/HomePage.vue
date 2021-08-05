@@ -1,17 +1,13 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-4 col-md-6" v-for="k in keeps" :key="k.id">
-          <KeepCard :keep="k" />
-        </div>
+  <div class="container-fluid-stretch">
+    <div class="row">
+      <!-- <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center"> -->
+      <!-- <div class="row"> -->
+      <div class="col-lg-2 col-md-6 vault" v-for="v in vaults" :key="v.id">
+        <VaultCard :vault="v" />
       </div>
-    </div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-4 col-md-6" v-for="v in vaults" :key="v.id">
-          <VaultCard :vault="v" />
-        </div>
+      <div class="col-lg-3 col-md-6 align-self-flex" v-for="k in keeps" :key="k.id">
+        <KeepCard :keep="k" />
       </div>
     </div>
   </div>
