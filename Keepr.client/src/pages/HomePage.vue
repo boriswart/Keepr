@@ -6,7 +6,7 @@
       <div class="col-lg-2 col-md-6 vault" v-for="v in vaults" :key="v.id">
         <VaultCard :vault="v" />
       </div>
-      <div class="col-lg-3 col-md-6 align-self-flex" v-for="k in keeps" :key="k.id">
+      <div class="col-lg-2 col-md-6 align-self-flex" v-for="k in keeps" :key="k.id">
         <KeepCard :keep="k" />
       </div>
     </div>
