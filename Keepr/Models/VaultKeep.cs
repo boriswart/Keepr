@@ -3,7 +3,7 @@ using System;
 namespace Keepr.Models
 {
 
-  public class KeepVault
+  public class VaultKeep
   {
 
     public int Id { get; set; }

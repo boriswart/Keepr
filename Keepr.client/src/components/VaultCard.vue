@@ -20,9 +20,27 @@
         >
         <!-- REVIEW Get list of keeps in vault also enable dorp-zone for drag and drop
         LV adding drag and drop to your Vue 3 Project -->
-        <div class="drop-zone">
-          <div v-for="keep in getVaultKeeps(vault.id)"
-               :key="keep.id"
+        <div class="drop-zone"
+             @drop="onDrop($event, 1)"
+             @dragenter.prevent
+             @dragover.prevent
+        >
+          <div v-for="item in getList(1)"
+               :key="item.id"
+               class="drag-el"
+               draggable="true"
+               @dragstart="startDrag($event, keep)"
+          >
+            {{ keep.name }}
+          </div>
+        </div>
+        <div class="drop-zone"
+             @drop="onDrop($event, 2)"
+             @dragenter.prevent
+             @dragover.prevent
+        >
+          <div v-for="item in getList(2)"
+               :key="item.id"
                class="drag-el"
                draggable="true"
                @dragstart="startDrag($event, keep)"
@@ -38,7 +56,7 @@
 </template>
 
 <script>
-import { computed, reactive } from '@vue/runtime-core'
+import { computed, ref, reactive } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 // import { vaultsService } from '../Services/VaultsService'
@@ -47,27 +65,44 @@ export default {
   props: {
     vault: { type: Object, required: true }
   },
-  setup(vault) {
+  setup() {
+    const items = ref([
+      { id: 0, title: 'Item A', List: 1 },
+      { id: 0, title: 'Item B', List: 1 },
+      { id: 0, title: 'Item C', List: 2 }
+    ])
+
+    const getList = (list) => {
+      return items.value.filter((item) => item.list === list)
+    }
+
+    const startDrag = (event, item) => {
+      logger.log(item.id)
+      event.dataTransfer.dropEffect = 'move'
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.setData('itemID', item.id)
+    }
+
+    const onDrop = (event, list) => {
+      const itemId = event.dataTransfer.getData('itemID')
+      const item = items.value.find((item) => item.id === itemId)
+      item.list = list
+    }
+
     const state = reactive({
       activeVault: computed(() => AppState.activeVault),
       account: computed(() => AppState.account),
-      startDrag: computed((event, keep) => {
-        logger.log(keep.id)
-        event.dataTransfer.dropEffect = 'move'
-        event.dataTransfer.effectAllowed = 'move'
-        event.dataTransfer.setData('itemID', keep.id)
-      }),
-      setActiveKeep(vault) {
+      setActiveVault: computed((vault) => {
         AppState.activeVault = vault
         AppState.activeVaultEdit = ''
-      }
+      })
     })
+
     return {
       state,
-      getVaultKeeps(id) {
-        return [2]
-      }
-      // TODO: create  getVaultKeep services
+      getList,
+      onDrop,
+      startDrag
     }
   }
 }
@@ -98,5 +133,4 @@ min-height: 10px;
 .drag-el:nth-last-of-type(1){
   margin-bottom: 0;
 }
-
 </style>

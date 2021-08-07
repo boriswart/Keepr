@@ -44,7 +44,7 @@ namespace Keepr
       services.AddScoped<AccountService>();
       services.AddScoped<KeepsRepository>();
       services.AddScoped<KeepsService>();
-      services.AddScoped<KeepsVaultRepository>();
+      services.AddScoped<VaultKeepsRepository>();
       services.AddScoped<VaultsRepository>();
       services.AddScoped<VaultsService>();
     }

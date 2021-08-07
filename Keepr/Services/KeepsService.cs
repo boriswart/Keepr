@@ -9,13 +9,13 @@ namespace Keepr.Services
   public class KeepsService
   {
     private readonly KeepsRepository _kRepo;
-    private readonly KeepsVaultRepository _kvRepo;
+    private readonly VaultKeepsRepository _vkRepo;
 
 
-    public KeepsService(KeepsRepository KeepsRepo, KeepsVaultRepository KeepsVaultRepo)
+    public KeepsService(KeepsRepository KeepsRepo, VaultKeepsRepository VaultKeepsRepo)
     {
       _kRepo = KeepsRepo;
-      _kvRepo = KeepsVaultRepo;
+      _vkRepo = VaultKeepsRepo;
     }
 
 
@@ -41,14 +41,7 @@ namespace Keepr.Services
     {
       return _kRepo.GetById(id);
     }
-
-    internal List<KeepVault> GetKeepsVault(int id)
-    {
-      List<KeepVault> bids = _kvRepo.GetBidsByKeepId(id);
-      return bids;
-    }
-
-    internal List<KeepVault> GetKeepVault(int id)
+    internal List<VaultKeep> GetKeepVault(int id)
     {
       throw new NotImplementedException();
     }

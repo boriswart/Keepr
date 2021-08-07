@@ -62,7 +62,7 @@ namespace Keepr.Controllers
     }
 
     [HttpPut("{id}")]
-    public ActionResult<Keep> update( [FromBody] Keep kData)
+    public ActionResult<Keep> update([FromBody] Keep kData)
     {
       try
       {
@@ -78,19 +78,19 @@ namespace Keepr.Controllers
 
 
 
-    [HttpGet("{id}/vaults")]
-    public ActionResult<List<KeepVault>> GetKeepVaults(int id)
-    {
-      try
-      {
-        List<KeepVault> vaults = _ks.GetKeepVault(id);
-        return Ok(vaults);
-      }
-      catch (System.Exception e)
-      {
-        return BadRequest(e.Message);
-      }
-    }
+    // [HttpGet("{id}/vaults")]
+    // public ActionResult<List<KeepVault>> GetKeepVaults(int id)
+    // {
+    //   try
+    //   {
+    //     List<KeepVault> vaults = _ks.GetKeepVault(id);
+    //     return Ok(vaults);
+    //   }
+    //   catch (System.Exception e)
+    //   {
+    //     return BadRequest(e.Message);
+    //   }
+    // }
 
 
   }

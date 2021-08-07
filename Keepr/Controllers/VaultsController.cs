@@ -14,10 +14,10 @@ namespace Keepr.Controllers
 
     private readonly VaultsService _vs;
 
-    public VaultsController(VaultsService vs) 
+    public VaultsController(VaultsService vs)
     {
       _vs = vs;
-    } 
+    }
 
     [HttpGet]
     public ActionResult<List<Vault>> Get()
@@ -61,7 +61,7 @@ namespace Keepr.Controllers
     }
 
     [HttpPut("{id}")]
-    public ActionResult<Vault> update( [FromBody] Vault vData)
+    public ActionResult<Vault> update([FromBody] Vault vData)
     {
       try
       {
@@ -77,19 +77,19 @@ namespace Keepr.Controllers
 
 
 
-    [HttpGet("{id}/vaults")]
-    public ActionResult<List<KeepVault>> GetKeepVaults(int id)
-    {
-      try
-      {
-        List<KeepVault> vaults = _vs.GetKeepVault(id);
-        return Ok(vaults);
-      }
-      catch (System.Exception e)
-      {
-        return BadRequest(e.Message);
-      }
-    }
+    // [HttpGet("{id}/vaults")]
+    // public ActionResult<List<VaultKeep>> GetKeepVaults(int id)
+    // {
+    //   try
+    //   {
+    //     List<VaultKeep> vaults = _vs.GetVaultKeeps(id);
+    //     return Ok(vaults);
+    //   }
+    //   catch (System.Exception e)
+    //   {
+    //     return BadRequest(e.Message);
+    //   }
+    // }
 
 
   }
