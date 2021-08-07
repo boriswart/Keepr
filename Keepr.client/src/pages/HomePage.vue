@@ -6,6 +6,20 @@
       <div class="col-lg-2 col-md-6 vault" v-for="v in vaults" :key="v.id">
         <VaultCard :vault="v" />
       </div>
+      <div class="drop-zone"
+           @drop="onDrop($event, 2)"
+           @dragenter.prevent
+           @dragover.prevent
+      >
+        <div v-for="item in getList(2)"
+             :key="item.id"
+             class="drag-el"
+             draggable="true"
+             @dragstart="startDrag($event, item)"
+        >
+          {{ item.title }}
+        </div>
+      </div>
       <div class="col-lg-2 col-md-6 align-self-flex" v-for="k in keeps" :key="k.id">
         <KeepCard :keep="k" />
       </div>
@@ -20,35 +34,49 @@ import { vaultsService } from '../services/VaultsService'
 import { logger } from '../utils/Logger'
 export default {
   setup() {
+    const getList = (list) => {
+      return state.items.filter((item) => item.list === list)
+    }
+    const startDrag = (event, item) => {
+      logger.log(item)
+      event.dataTransfer.dropEffect = 'move'
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.setData('itemID', item.id)
+    }
+
+    const onDrop = (event, list) => {
+      const itemId = event.dataTransfer.getData('itemID')
+      // eslint-disable-next-line eqeqeq
+      const item = state.items.find((i) => i.id == itemId)
+      item.list = list
+    }
+
     onMounted(() => {
       keepsService.getKeeps()
       vaultsService.getVaults()
       watchEffect(() => AppState.keeps)
       watchEffect(() => AppState.vaults)
     })
+
+    const state = reactive({
+      items: computed(() => AppState.items)
+    })
+
     return reactive({
       account: computed(() => AppState.account),
       user: computed(() => AppState.user),
       keeps: computed(() => AppState.keeps),
       vaults: computed(() => AppState.vaults),
+      items: computed(() => AppState.items),
+      getList,
+      onDrop,
+      startDrag,
       computed: {
         listOne() {
           return this.items.filter(item => item.list === 1)
         },
         listTwo() {
           return this.items.filter(item => item.list === 2)
-        },
-        allowDrop(ev) {
-          ev.preventDefault()
-        },
-        dragStart(ev) {
-          ev.dataTransfer.setData('int', ev.target.id)
-          logger.log('gotKeepId', ev)
-        },
-        dragDrop(ev) {
-          ev.preventDefault()
-          const data = ev.dataTransfer.getData('int')
-          logger.log('vautId: ', ev.target.data.id)
         }
       }
     })

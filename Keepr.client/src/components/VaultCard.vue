@@ -29,23 +29,9 @@
                :key="item.id"
                class="drag-el"
                draggable="true"
-               @dragstart="startDrag($event, keep)"
+               @dragstart="startDrag($event, item)"
           >
-            {{ keep.name }}
-          </div>
-        </div>
-        <div class="drop-zone"
-             @drop="onDrop($event, 2)"
-             @dragenter.prevent
-             @dragover.prevent
-        >
-          <div v-for="item in getList(2)"
-               :key="item.id"
-               class="drag-el"
-               draggable="true"
-               @dragstart="startDrag($event, keep)"
-          >
-            {{ keep.name }}
+            {{ item.title }}
           </div>
         </div>
         <!-- comment end -->
@@ -66,18 +52,12 @@ export default {
     vault: { type: Object, required: true }
   },
   setup() {
-    const items = ref([
-      { id: 0, title: 'Item A', List: 1 },
-      { id: 0, title: 'Item B', List: 1 },
-      { id: 0, title: 'Item C', List: 2 }
-    ])
-
     const getList = (list) => {
-      return items.value.filter((item) => item.list === list)
+      return state.items.filter((item) => item.list === list)
     }
 
     const startDrag = (event, item) => {
-      logger.log(item.id)
+      logger.log(item)
       event.dataTransfer.dropEffect = 'move'
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.setData('itemID', item.id)
@@ -85,11 +65,13 @@ export default {
 
     const onDrop = (event, list) => {
       const itemId = event.dataTransfer.getData('itemID')
-      const item = items.value.find((item) => item.id === itemId)
+      // eslint-disable-next-line eqeqeq
+      const item = state.items.find((i) => i.id == itemId)
       item.list = list
     }
 
     const state = reactive({
+      items: computed(() => AppState.items),
       activeVault: computed(() => AppState.activeVault),
       account: computed(() => AppState.account),
       setActiveVault: computed((vault) => {

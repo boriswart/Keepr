@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 // NOTE AppState is a reactive object to contain app level data
 export const AppState = reactive({
@@ -12,5 +12,10 @@ export const AppState = reactive({
   vaults: [],
   activeVault: {},
   activeVaultEdit: '',
-  keepVaults: []
+  keepVaults: [],
+  items: ref([
+    { id: 0, title: 'Item A', list: 1 },
+    { id: 1, title: 'Item B', list: 1 },
+    { id: 2, title: 'Item C', list: 2 }
+  ])
 })
