@@ -1,27 +1,41 @@
 <template>
-  <div class="container-fluid-stretch">
-    <div class="row">
-      <!-- <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center"> -->
-      <!-- <div class="row"> -->
-      <div class="col-lg-2 col-md-6 vault" v-for="v in vaults" :key="v.id">
-        <VaultCard :vault="v" />
-      </div>
-      <div class="drop-zone"
-           @drop="onDrop($event, 2)"
-           @dragenter.prevent
-           @dragover.prevent
-      >
-        <div v-for="item in getList(2)"
+  <!-- <div v-for="item in getList(2)"
              :key="item.id"
              class="drag-el"
              draggable="true"
              @dragstart="startDrag($event, item)"
         >
           {{ item.title }}
+        </div> -->
+  <div class="container-fluid-stretch">
+    <div class="row">
+      <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
+        <div class="row">
+          <div class="col-lg-2 col-md-6 vault" v-for="v in vaults" :key="v.id">
+            <VaultCard :vault="v" />
+            <div class="col-lg-8 col-md-6 keep">
+              <div class="drop-zone"
+                   @drop="onDrop($event, 2)"
+                   @dragenter.prevent
+                   @dragover.prevent
+              >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 align-self-flex" v-for="k in keeps" :key="k.id">
+            <div class="drop-zone">
+              <div class="drag-el"
+                   @drop="onDrop($event, 2)"
+                   @dragenter.prevent
+                   @dragover.prevent
+                   draggable="true"
+                   @dragstart="startDrag($event, item)"
+              >
+                <KeepCard :keep="k" />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-2 col-md-6 align-self-flex" v-for="k in keeps" :key="k.id">
-        <KeepCard :keep="k" />
       </div>
     </div>
   </div>

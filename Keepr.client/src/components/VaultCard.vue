@@ -25,13 +25,13 @@
              @dragenter.prevent
              @dragover.prevent
         >
-          <div v-for="item in getList(1)"
-               :key="item.id"
+          <div v-for="keep in state.keeps"
+               :key="keep.id"
                class="drag-el"
                draggable="true"
-               @dragstart="startDrag($event, item)"
+               @dragstart="startDrag($event, keep)"
           >
-            {{ item.title }}
+            {{ keep.name }}
           </div>
         </div>
         <!-- comment end -->
@@ -45,6 +45,7 @@
 import { computed, ref, reactive } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
+import { keepsService } from '../services/KeepsService'
 // import { vaultsService } from '../Services/VaultsService'
 
 export default {
@@ -70,6 +71,10 @@ export default {
       item.list = list
     }
 
+    const getKeeps = () => {
+      keepsService.getKeeps()
+    }
+
     const state = reactive({
       items: computed(() => AppState.items),
       activeVault: computed(() => AppState.activeVault),
@@ -77,14 +82,16 @@ export default {
       setActiveVault: computed((vault) => {
         AppState.activeVault = vault
         AppState.activeVaultEdit = ''
-      })
+      }),
+      keeps: computed(() => AppState.keeps)
     })
 
     return {
       state,
       getList,
       onDrop,
-      startDrag
+      startDrag,
+      getKeeps
     }
   }
 }
