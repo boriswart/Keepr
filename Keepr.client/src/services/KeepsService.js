@@ -20,9 +20,9 @@ class KeepsService {
     logger.log('AppS-kp', AppState.keep)
   }
 
-  async getKeepVaults(keepId) {
+  async getKeepsByVault(vaultId) {
     AppState.keepVaults = []
-    const res = await api.get(`api/keeps/${keepId}/vaults`)
+    const res = await api.get(`api/keeps/${vaultId}/vaults`)
     AppState.keepVaults = res.data
   }
 

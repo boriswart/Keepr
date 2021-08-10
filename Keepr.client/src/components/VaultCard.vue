@@ -25,13 +25,13 @@
              @dragenter.prevent
              @dragover.prevent
         >
-          <div v-for="keep in state.keeps"
-               :key="keep.id"
+          <div v-for="vk in state.vaultKeeps"
+               :key="vk.id"
                class="drag-el"
                draggable="true"
-               @dragstart="startDrag($event, keep)"
+               @dragstart="startDrag($event, vk)"
           >
-            {{ keep.name }}
+            {{ vk.name }}
           </div>
         </div>
         <!-- comment end -->
@@ -52,7 +52,7 @@ export default {
   props: {
     vault: { type: Object, required: true }
   },
-  setup() {
+  setup(vault) {
     const getList = (list) => {
       return state.items.filter((item) => item.list === list)
     }
@@ -71,14 +71,16 @@ export default {
       item.list = list
     }
 
-    const getKeeps = () => {
-      keepsService.getKeeps()
+    const getVaultKeeps = () => {
+      keepsService.getKeepsbyVault(vault.id)
+      logger.log('vaultKeeps', state.vaultKeeps)
     }
 
     const state = reactive({
       items: computed(() => AppState.items),
       activeVault: computed(() => AppState.activeVault),
       account: computed(() => AppState.account),
+      vaultKeeps: computed(() => AppState.keepVaults),
       setActiveVault: computed((vault) => {
         AppState.activeVault = vault
         AppState.activeVaultEdit = ''
@@ -91,7 +93,7 @@ export default {
       getList,
       onDrop,
       startDrag,
-      getKeeps
+      getVaultKeeps
     }
   }
 }
