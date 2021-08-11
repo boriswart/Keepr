@@ -24,6 +24,7 @@ class KeepsService {
     AppState.keepVaults = []
     const res = await api.get(`api/keeps/${vaultId}/vaults`)
     AppState.keepVaults = res.data
+    logger.log('vauktKeeps', res.data)
   }
 
   async deleteKeep(k) {

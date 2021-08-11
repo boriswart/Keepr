@@ -7,32 +7,32 @@
         >
           {{ item.title }}
         </div> -->
-  <div class="container-fluid-stretch">
+  <div class="container-fluid">
     <div class="row">
-      <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-        <div class="row">
-          <div class="col-lg-2 col-md-6 vault" v-for="v in vaults" :key="v.id">
-            <VaultCard :vault="v" />
-            <div class="col-lg-8 col-md-6 keep">
-              <div class="drop-zone"
-                   @drop="onDrop($event, 2)"
-                   @dragenter.prevent
-                   @dragover.prevent
-              >
-              </div>
+      <div class="d-flex flex-wrap justify-content-between">
+        <div class="col-lg-2 col-md-6 vault" v-for="v in vaults" :key="v.id">
+          <div class="drop-zone">
+            <div class="drag-el"
+                 @drop="onDrop($event, 2)"
+                 @dragenter.prevent
+                 @dragover.prevent
+                 draggable="true"
+                 @dragstart="startDrag($event, v)"
+            >
+              <VaultCard :vault="v" />
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 align-self-flex" v-for="k in keeps" :key="k.id">
-            <div class="drop-zone">
-              <div class="drag-el"
-                   @drop="onDrop($event, 2)"
-                   @dragenter.prevent
-                   @dragover.prevent
-                   draggable="true"
-                   @dragstart="startDrag($event, item)"
-              >
-                <KeepCard :keep="k" />
-              </div>
+        </div>
+        <div class="col-lg-4" v-for="k in keeps" :key="k.id">
+          <div class="drop-zone">
+            <div class="drag-el"
+                 @drop="onDrop($event, 2)"
+                 @dragenter.prevent
+                 @dragover.prevent
+                 draggable="true"
+                 @dragstart="startDrag($event, k)"
+            >
+              <KeepCard :keep="k" />
             </div>
           </div>
         </div>
@@ -68,6 +68,7 @@ export default {
     onMounted(() => {
       keepsService.getKeeps()
       vaultsService.getVaults()
+      // vaultsService.getVaultKeeps()
       watchEffect(() => AppState.keeps)
       watchEffect(() => AppState.vaults)
     })

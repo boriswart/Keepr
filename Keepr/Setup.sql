@@ -51,15 +51,10 @@ FROM
   JOIN Accounts a ON k.creatorId = a.id
 WHERE
   k.id = 2;
-
-
 select
   *
 from
   keeps;
-
-
-  
 SELECT
   a.*,
   a.name,
@@ -71,22 +66,27 @@ FROM
   INNER JOIN Accounts AS a ON k.creatorId = a.id
 WHERE
   k.id = 2;
-
-
 CREATE TABLE IF NOT EXISTS vaults(
-  id INT NOT NULL primary key AUTO_INCREMENT COMMENT 'primary key',
-  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
-  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
-  name varchar(255) COMMENT 'Vault Name',
-  description varchar(255) COMMENT 'Vault description',
-  isPrivate  TINYINT COMMENT 'true or false viewable by owner',
-  creatorId varchar(255) COMMENT 'FK: creator user account',
-  FOREIGN KEY (creatorId) REFERENCES Accounts(id) ON DELETE CASCADE
-) default charset utf8 COMMENT '';
-
-drop table vaults;
-
-
+    id INT NOT NULL primary key AUTO_INCREMENT COMMENT 'primary key',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+    name varchar(255) COMMENT 'Vault Name',
+    description varchar(255) COMMENT 'Vault description',
+    isPrivate TINYINT COMMENT 'true or false viewable by owner',
+    creatorId varchar(255) COMMENT 'FK: creator user account',
+    FOREIGN KEY (creatorId) REFERENCES Accounts(id) ON DELETE CASCADE
+  ) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS vault_keeps(
+    id INT NOT NULL primary key AUTO_INCREMENT COMMENT 'primary key',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+    keepId INT COMMENT 'FK: keep Id',
+    vaultId INT COMMENT 'FK: vault Id',
+    creatorId varchar(255) COMMENT 'FK: creator user account',
+    FOREIGN KEY (creatorId) REFERENCES Accounts(id) ON DELETE CASCADE,
+    FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE,
+    FOREIGN KEY (vaultId) REFERENCES vaults(id) ON DELETE CASCADE
+  ) default charset utf8 COMMENT '';
 INSERT INTO
   vaults(name, description, isPrivate, creatorId)
 VALUES
@@ -96,6 +96,15 @@ VALUES
     1,
     "60c8e79e8a6d40e05a9cfb58"
   );
-
-  select * from vaults;
-  
+INSERT INTO
+  vault_keeps(keepId, vaultId, creatorId)
+VALUES
+  (2, 1, "60c8e79e8a6d40e05a9cfb58");
+select
+  *
+from
+  vaults;
+select
+  *
+from
+  vault_keeps;

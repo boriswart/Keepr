@@ -1,12 +1,13 @@
 <template>
-  <div class="col2">
-    <div class="card vault m-4 shadow size=100">
+  <VaultModal />
+  <div class="card vault m-4 shadow size=100">
+    <div class="col-2-lg">
       <button type="button"
               class="add btn btn-slide"
               data-toggle="modal"
               data-target="#VaultModal"
               title="showVaultModal"
-              @click="state.setActiveVault(vault)"
+              @click="setActiveVault(vault)"
       >
         View
       </button>
@@ -37,12 +38,11 @@
         <!-- comment end -->
       </div>
     </div>
-    <VaultModal />
   </div>
 </template>
 
 <script>
-import { computed, ref, reactive } from '@vue/runtime-core'
+import { computed, watchEffect, reactive, watch } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { keepsService } from '../services/KeepsService'
@@ -56,6 +56,16 @@ export default {
     const getList = (list) => {
       return state.items.filter((item) => item.list === list)
     }
+    watchEffect((state) => {
+      if (vault.id) {
+        keepsService.getKeepsByVault(vault.id)
+      }
+      watchEffect(() => logger.log('vaultKeeps', state.vaultKeeps))
+      logger.log('APsKeeps', AppState.keeps)
+      logger.log('APsVaults', AppState.vaults)
+      logger.log('APskeepVaults', AppState.keepVaults)
+      logger.log('vault', vault)
+    })
 
     const startDrag = (event, item) => {
       logger.log(item)
@@ -71,9 +81,9 @@ export default {
       item.list = list
     }
 
-    const getVaultKeeps = () => {
-      keepsService.getKeepsbyVault(vault.id)
-      logger.log('vaultKeeps', state.vaultKeeps)
+    const setActiveVault = (vault) => {
+      AppState.activeVault = vault
+      AppState.activeVaultEdit = ''
     }
 
     const state = reactive({
@@ -81,10 +91,6 @@ export default {
       activeVault: computed(() => AppState.activeVault),
       account: computed(() => AppState.account),
       vaultKeeps: computed(() => AppState.keepVaults),
-      setActiveVault: computed((vault) => {
-        AppState.activeVault = vault
-        AppState.activeVaultEdit = ''
-      }),
       keeps: computed(() => AppState.keeps)
     })
 
@@ -93,7 +99,7 @@ export default {
       getList,
       onDrop,
       startDrag,
-      getVaultKeeps
+      setActiveVault
     }
   }
 }
@@ -108,17 +114,17 @@ card.vault{
   height: 100;
 }
 
-.drop-zone{
+/* .drop-zone{
   width: 50%;
   margin: 50px;
   background-color:  info;
   padding: 10px;
   min-height: 10px;
-}
+} */
 .drag-el {
-background-color: aqua;
+background-color: info;
 color: dark;
-padding: 5px;
+padding: 1px;
 min-height: 10px;
 }
 .drag-el:nth-last-of-type(1){
