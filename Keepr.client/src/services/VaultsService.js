@@ -20,6 +20,13 @@ class VaultsService {
     logger.log('AppS-vt', AppState.vault)
   }
 
+  async getKeepsByVault(vaultId) {
+    AppState.keepVaults = []
+    const res = await api.get(`api/vaults/${vaultId}/keeps`)
+    AppState.keepVaults = res.data
+    logger.log('vauktKeeps', res.data)
+  }
+
   async deleteVault(v) {
     await api.delete(`api/vaults/${v.id}`)
     // Pop.toast(`Deleted group ${k.name}`)

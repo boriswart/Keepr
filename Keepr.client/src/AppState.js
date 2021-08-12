@@ -12,7 +12,7 @@ export const AppState = reactive({
   vaults: [],
   activeVault: {},
   activeVaultEdit: '',
-  keepVaults: [],
+  vaultKeeps: [],
   items: ref([
     { id: 0, title: 'Item A', list: 1 },
     { id: 1, title: 'Item B', list: 1 },

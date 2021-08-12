@@ -45,7 +45,7 @@
 import { computed, watchEffect, reactive, watch } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
-import { keepsService } from '../services/KeepsService'
+import { vaultsService } from '../services/VaultsService'
 // import { vaultsService } from '../Services/VaultsService'
 
 export default {
@@ -56,15 +56,11 @@ export default {
     const getList = (list) => {
       return state.items.filter((item) => item.list === list)
     }
-    watchEffect((state) => {
-      if (vault.id) {
-        keepsService.getKeepsByVault(vault.id)
-      }
-      watchEffect(() => logger.log('vaultKeeps', state.vaultKeeps))
+    watchEffect(() => {
+      vaultsService.getKeepsByVault(vault.vault.id)
+      watchEffect(() => logger.log('vaultKeeps', AppState.vaultKeeps))
       logger.log('APsKeeps', AppState.keeps)
       logger.log('APsVaults', AppState.vaults)
-      logger.log('APskeepVaults', AppState.keepVaults)
-      logger.log('vault', vault)
     })
 
     const startDrag = (event, item) => {
