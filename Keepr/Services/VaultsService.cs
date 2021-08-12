@@ -16,7 +16,6 @@ namespace Keepr.Services
       _vkRepo = VaultKeepsRepo;
     }
 
-
     internal Vault CreateVault(Vault VaultData)
     {
       Vault vault = _vRepo.Create(VaultData);
@@ -30,8 +29,6 @@ namespace Keepr.Services
       return vault;
     }
 
-
-
     internal List<Vault> GetVaults()
     {
       return _vRepo.GetAll();
@@ -42,9 +39,10 @@ namespace Keepr.Services
       return _vRepo.GetById(id);
     }
 
-    internal List<VaultKeep> GetKeepsByVaultId(int id)
+    internal List<Keep> GetVaultKeeps(int id)
     {
-      return _vkRepo.GetKeepsByVaultId(id);
+      var keeps = _vkRepo.GetKeepsByVaultId(id);
+      return keeps;
     }
   }
 }

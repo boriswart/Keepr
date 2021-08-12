@@ -13,12 +13,10 @@ namespace Keepr.Controllers
   {
 
     private readonly VaultsService _vs;
-    private readonly KeepsService _ks;
 
     public VaultsController(VaultsService vs, KeepsService ks)
     {
       _vs = vs;
-      _ks = ks;
     }
 
     [HttpGet]
@@ -54,7 +52,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        List<VaultKeep> keeps = _ks.GetVaultKeeps(id);
+        List<Keep> keeps = _vs.GetVaultKeeps(id);
         return Ok(keeps);
       }
       catch (System.Exception e)

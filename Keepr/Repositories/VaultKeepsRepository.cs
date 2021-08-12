@@ -28,20 +28,22 @@ namespace Keepr.Repositories
       _db.ExecuteScalar<int>(sql, new { accountId, vaultId, keepId });
     }
 
-    public List<VaultKeep> GetKeepsByVaultId(int id)
+    public List<Keep> GetKeepsByVaultId(int id)
     {
       // REVIEW joining data and mapping to two classes
       string sql = @"
-            SELECT *
-            FROM vault_keeps vk
-            JOIN Accounts a ON a.id = vk.Id
-            WHERE vk.Id = @id; 
-            ";
-      //               vv vk         vv return type of the entire Query
-      return _db.Query<VaultKeep, Profile, VaultKeep>(sql, (vk, p) =>
+        SELECT
+        *
+        FROM
+        vault_keeps vk
+        JOIN keeps k ON k.id = vk.keepId
+        WHERE
+        vk.Id = @id;
+        ";
+      //                   vk       k     return type of the entire Query
+      return _db.Query<VaultKeep, Keep, Keep>(sql, (vk, k) =>
       {
-        vk.Creator = p;
-        return vk;
+        return k;
       }, new { id }).ToList();
     }
   }

@@ -42,9 +42,5 @@ namespace Keepr.Services
       return _kRepo.GetById(id);
     }
 
-    internal List<VaultKeep> GetVaultKeeps(int id)
-    {
-      throw new NotImplementedException("Yo Mama no implementation");
-    }
   }
 }

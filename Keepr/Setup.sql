@@ -108,3 +108,10 @@ select
   *
 from
   vault_keeps;
+SELECT
+  *
+FROM
+  vault_keeps vk
+  JOIN keeps k ON k.id = vk.keepId
+WHERE
+  vk.Id = 1;
