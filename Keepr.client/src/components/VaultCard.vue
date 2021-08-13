@@ -23,7 +23,7 @@
         LV adding drag and drop to your Vue 3 Project -->
         <div v-for="vk in state.vaultKeeps" :key="vk.id">
           <div class="drop-zone"
-               @drop="onDrop($event, vk.id)"
+               @drop="onDrop($event, vault.id)"
                @dragenter.prevent
                @dragover.prevent
           >
@@ -73,11 +73,17 @@ export default {
 
     const onDrop = (event, vk) => {
       const keepId = event.dataTransfer.getData('itemID')
-      // eslint-disable-next-line eqeqeq
       // const item = state.items.find((i) => i.id == itemId)
       // item.list = list
       logger.log('vk_vCard', vk, keepId)
-      // logger.log(AppState.vaultKeeps)
+      vaultsService.getKeepsByVault(vk)
+      // eslint-disable-next-line eqeqeq
+      if (AppState.vaultKeeps.find((k) => k.id == keepId)) {
+        logger.log('Do Nothing')
+      } else {
+        logger.log('create vautkeep:', keepId)
+        vaultsService.createVaultKeep(vk, keepId)
+      }
     }
 
     const setActiveVault = (vault) => {

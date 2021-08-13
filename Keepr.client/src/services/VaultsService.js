@@ -28,16 +28,20 @@ class VaultsService {
     AppState.vaultKeeps = res.data
   }
 
+  async createVaultKeep(v, k) {
+    await api.post(`api/vaults/${v}/keeps/${k}`)
+  }
+
   async deleteVault(v) {
     await api.delete(`api/vaults/${v.id}`)
-    // Pop.toast(`Deleted group ${k.name}`)
+    // Pop.toast(`Deleted vault ${k.name}`)
   }
 
   async updateVault(vaultData) {
     const res = await api.put(`api/vaults/${vaultData.id}`, vaultData)
     AppState.activeVault = res.data
     // logger.log('put', res.data)
-    // Pop.toast(`Updated group ${k.name}`)
+    // Pop.toast(`Updated vault ${k.name}`)
   }
 }
 

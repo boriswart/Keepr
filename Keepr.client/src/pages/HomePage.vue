@@ -11,22 +11,22 @@
     <div class="row">
       <div class="d-flex flex-wrap justify-content-between">
         <div class="col-lg-2 col-md-6 vault" v-for="v in vaults" :key="v.id">
+          <VaultCard :vault="v" />
           <div class="drop-zone">
             <div class="drag-el"
-                 @drop="onDrop($event, 2)"
+                 @drop="onDrop($event, 1000)"
                  @dragenter.prevent
                  @dragover.prevent
                  draggable="true"
                  @dragstart="startDrag($event, v)"
             >
-              <VaultCard :vault="v" />
             </div>
           </div>
         </div>
         <div class="col-lg-4" v-for="k in keeps" :key="k.id">
           <div class="drop-zone">
             <div class="drag-el"
-                 @drop="onDrop($event, 2)"
+                 @drop="onDrop($event, 2000)"
                  @dragenter.prevent
                  @dragover.prevent
                  draggable="true"

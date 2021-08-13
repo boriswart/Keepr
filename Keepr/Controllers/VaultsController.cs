@@ -61,6 +61,25 @@ namespace Keepr.Controllers
       }
     }
 
+    [HttpPost("{id}/keeps/{kid}")]
+    public ActionResult<VaultKeep> create(int id)
+    {
+      try
+      {
+        VaultKeep Vkeep = _vs.createVaultKeep(id);
+        return Ok(Vkeep);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+
+
+
+
+
     [HttpPost]
     public ActionResult<Vault> create([FromBody] Vault kData)
     {

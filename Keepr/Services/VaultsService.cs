@@ -44,5 +44,10 @@ namespace Keepr.Services
       var keeps = _vkRepo.GetKeepsByVaultId(id);
       return keeps;
     }
+
+    internal VaultKeep createVaultKeep(int id)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
