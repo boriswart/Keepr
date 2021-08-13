@@ -115,3 +115,13 @@ FROM
   JOIN keeps k ON k.id = vk.keepId
 WHERE
   vk.Id = 1;
+
+
+        SELECT
+        vk.*,
+        k.*
+        FROM
+        vault_keeps vk
+        JOIN keeps k ON k.id = vk.keepId
+        WHERE
+        vk.vaultId = 1;

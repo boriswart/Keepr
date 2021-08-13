@@ -33,12 +33,13 @@ namespace Keepr.Repositories
       // REVIEW joining data and mapping to two classes
       string sql = @"
         SELECT
-        *
+        vk.*,
+        k.*
         FROM
         vault_keeps vk
         JOIN keeps k ON k.id = vk.keepId
         WHERE
-        vk.Id = @id;
+        vk.vaultId = @id;
         ";
       //                   vk       k     return type of the entire Query
       return _db.Query<VaultKeep, Keep, Keep>(sql, (vk, k) =>

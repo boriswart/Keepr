@@ -8,16 +8,16 @@ class KeepsService {
     AppState.keeps = []
     AppState.keep = {}
     const res = await api.get('api/keeps')
-    logger.log('gKeeps', res.data)
+    // logger.log('gKeeps', res.data)
     AppState.keeps = res.data
   }
 
   async getKeepById(id) {
     AppState.keep = {}
     const res = await api.get(`api/keeps/${id}`)
-    logger.log('gKBId', res.data)
+    // logger.log('gKBId', res.data)
     AppState.keep = res.data
-    logger.log('AppS-kp', AppState.keep)
+    // logger.log('AppS-kp', AppState.keep)
   }
 
   async deleteKeep(k) {
@@ -28,7 +28,7 @@ class KeepsService {
   async updateKeep(keepData) {
     const res = await api.put(`api/keeps/${keepData.id}`, keepData)
     AppState.activeKeep = res.data
-    logger.log('put', res.data)
+    // logger.log('put', res.data)
     // Pop.toast(`Updated group ${k.name}`)
   }
 

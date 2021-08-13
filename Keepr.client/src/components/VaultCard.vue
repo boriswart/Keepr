@@ -21,18 +21,19 @@
         >
         <!-- REVIEW Get list of keeps in vault also enable dorp-zone for drag and drop
         LV adding drag and drop to your Vue 3 Project -->
-        <div class="drop-zone"
-             @drop="onDrop($event, 1)"
-             @dragenter.prevent
-             @dragover.prevent
-        >
-          <div v-for="vk in state.vaultKeeps"
-               :key="vk.id"
-               class="drag-el"
-               draggable="true"
-               @dragstart="startDrag($event, vk)"
+        <div v-for="vk in state.vaultKeeps" :key="vk.id">
+          <div class="drop-zone"
+               @drop="onDrop($event, vk.id)"
+               @dragenter.prevent
+               @dragover.prevent
           >
-            {{ vk.name }}
+            <div class="drag-el"
+
+                 draggable="true"
+                 @dragstart="startDrag($event, vk)"
+            >
+              {{ vk.name }}
+            </div>
           </div>
         </div>
         <!-- comment end -->
@@ -59,22 +60,24 @@ export default {
     watchEffect(() => {
       vaultsService.getKeepsByVault(vault.vault.id)
       watchEffect(() => logger.log('vaultKeeps', AppState.vaultKeeps))
-      logger.log('APsKeeps', AppState.keeps)
-      logger.log('APsVaults', AppState.vaults)
+      // logger.log('APsKeeps', AppState.keeps)
+      // logger.log('APsVaults', AppState.vaults)
     })
 
     const startDrag = (event, item) => {
-      logger.log(item)
       event.dataTransfer.dropEffect = 'move'
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.setData('itemID', item.id)
+      logger.log(item.id)
     }
 
-    const onDrop = (event, list) => {
-      const itemId = event.dataTransfer.getData('itemID')
+    const onDrop = (event, vk) => {
+      const keepId = event.dataTransfer.getData('itemID')
       // eslint-disable-next-line eqeqeq
-      const item = state.items.find((i) => i.id == itemId)
-      item.list = list
+      // const item = state.items.find((i) => i.id == itemId)
+      // item.list = list
+      logger.log('vk_vCard', vk, keepId)
+      // logger.log(AppState.vaultKeeps)
     }
 
     const setActiveVault = (vault) => {
@@ -86,7 +89,7 @@ export default {
       items: computed(() => AppState.items),
       activeVault: computed(() => AppState.activeVault),
       account: computed(() => AppState.account),
-      vaultKeeps: computed(() => AppState.keepVaults),
+      vaultKeeps: computed(() => AppState.vaultKeeps),
       keeps: computed(() => AppState.keeps)
     })
 

@@ -52,17 +52,29 @@ export default {
       return state.items.filter((item) => item.list === list)
     }
     const startDrag = (event, item) => {
-      logger.log(item)
+      // logger.log(item)
       event.dataTransfer.dropEffect = 'move'
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.setData('itemID', item.id)
     }
 
-    const onDrop = (event, list) => {
-      const itemId = event.dataTransfer.getData('itemID')
+    const onDrop = (event, vk) => {
+      const keepId = event.dataTransfer.getData('itemID')
       // eslint-disable-next-line eqeqeq
-      const item = state.items.find((i) => i.id == itemId)
-      item.list = list
+      // const item = state.items.find((i) => i.id == itemId)
+      // item.list = list
+      logger.log('vk_hPage', vk, keepId)
+      // AppState.vaultKeeps.forEach(v => {
+      //   // eslint-disable-next-line eqeqeq
+      //   if (v.vaultId == vk) {
+      //     // eslint-disable-next-line eqeqeq
+      //     if (v.keepId == keepId) {
+      //       logger.log('Do Nothing')
+      //     } else {
+      //       logger.log('Do Something bassed on Drop!')
+      //     }
+      //   }
+      // })
     }
 
     onMounted(() => {

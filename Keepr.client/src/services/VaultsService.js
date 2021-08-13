@@ -8,14 +8,14 @@ class VaultsService {
     AppState.vaults = []
     AppState.vault = {}
     const res = await api.get('api/vaults')
-    logger.log('gVaults', res.data)
+    // logger.log('gVaults', res.data)
     AppState.vaults = res.data
   }
 
   async getVaultById(id) {
     AppState.vault = {}
     const res = await api.get(`api/vaults/${id}`)
-    logger.log('gVBId', res.data)
+    // logger.log('gVBId', res.data)
     AppState.vault = res.data
     logger.log('AppS-vt', AppState.vault)
   }
@@ -23,8 +23,9 @@ class VaultsService {
   async getKeepsByVault(vaultId) {
     AppState.keepVaults = []
     const res = await api.get(`api/vaults/${vaultId}/keeps`)
-    AppState.keepVaults = res.data
-    logger.log('vauktKeeps', res.data)
+    // res.data.vaultId = vaultId
+    // logger.log('vauktKeeps', res.data)
+    AppState.vaultKeeps = res.data
   }
 
   async deleteVault(v) {
@@ -35,7 +36,7 @@ class VaultsService {
   async updateVault(vaultData) {
     const res = await api.put(`api/vaults/${vaultData.id}`, vaultData)
     AppState.activeVault = res.data
-    logger.log('put', res.data)
+    // logger.log('put', res.data)
     // Pop.toast(`Updated group ${k.name}`)
   }
 }
